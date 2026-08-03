@@ -9,14 +9,13 @@ logger = logging.getLogger(__name__)
 # Page configuration
 st.set_page_config(
     page_title="NEPSE Multi-Agent AI System",
-    page_icon="🏦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # Custom CSS
 st.markdown("""
-    <style>
+<style>
     .main {
         padding: 2rem;
     }
@@ -97,32 +96,32 @@ if 'current_query' not in st.session_state:
 def render_sidebar():
     """Render sidebar content"""
     with st.sidebar:
-        st.markdown("## 🏦 NEPSE Multi-Agent AI")
+        st.markdown("## NEPSE Multi-Agent AI")
         st.markdown("---")
         
         st.markdown("""
-        ### 🎯 Agent Team
+        ### Agent Team
         This system analyzes the **Nepali Stock Market (NEPSE)** using multiple specialized AI agents:
         """)
         
         st.markdown("""
         <div class='agent-card'>
-            <strong>🌐 Web Agent</strong><br>
+            <strong>Web Agent</strong><br>
             <small>Searches the web for Nepali market news & NEPSE developments</small>
         </div>
         <div class='agent-card'>
-            <strong>💰 Finance Agent</strong><br>
+            <strong>Finance Agent</strong><br>
             <small>Fetches LIVE NEPSE data (prices, gainers, losers, sectors)</small>
         </div>
         <div class='agent-card'>
-            <strong>🤝 Team Coordinator</strong><br>
+            <strong>Team Coordinator</strong><br>
             <small>Orchestrates agent collaboration</small>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("---")
         
-        st.markdown("### 📊 Session Stats")
+        st.markdown("### Session Stats")
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Queries", st.session_state.total_queries)
@@ -131,7 +130,7 @@ def render_sidebar():
         
         st.markdown("---")
         
-        if st.button("🗑️ Clear History", use_container_width=True):
+        if st.button("Clear History", use_container_width=True):
             st.session_state.chat_history = []
             st.session_state.total_queries = 0
             logger.info("Chat history cleared")
@@ -171,11 +170,11 @@ def _get_popular_stocks(limit=8):
 
 def render_live_market_cards():
     """Render live NEPSE market snapshot cards at the top."""
-    st.markdown("### 📌 Live NEPSE Market Snapshot")
+    st.markdown("### Live NEPSE Market Snapshot")
     try:
         snap = nepse_data.get_market_snapshot()
         if not snap:
-            st.info("⏳ Market data is loading...")
+            st.info("Market data is loading...")
             return
         
         col1, col2, col3, col4, col5 = st.columns(5)
@@ -202,18 +201,18 @@ def render_live_market_cards():
         st.caption(f"Trade Date: {snap.get('trade_date', 'N/A')} | {snap.get('decliners', 0)} decliners | {snap.get('unchanged', 0)} unchanged | {snap.get('total_stocks', 0)} stocks tracked")
     except Exception as e:
         logger.error(f"Error loading market snapshot: {str(e)}", exc_info=True)
-        st.info("⏳ Market data is loading...")
+        st.info("Market data is loading...")
 
 def render_quick_actions():
     """Render quick action buttons for better market representation."""
     render_live_market_cards()
     
     st.markdown("---")
-    st.markdown("### 🔥 Quick Analysis")
+    st.markdown("### Quick Analysis")
     st.caption("Click any button to run an instant AI analysis using live NEPSE data")
     
     # Row 1: Popular stocks (dynamically updated based on live NEPSE data)
-    st.markdown("**🏢 Popular Stocks**")
+    st.markdown("**Popular Stocks**")
     st.caption("Top actively traded stocks based on live NEPSE data")
     popular_stocks = _get_popular_stocks(limit=8)
     
@@ -241,75 +240,75 @@ def render_quick_actions():
                                 symbol,
                             )
     else:
-        st.info("⚠️ Live data unavailable. Showing default popular stocks.")
+        st.info("Live data unavailable. Showing default popular stocks.")
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            if st.button("🏦 NABIL (Bank)", use_container_width=True):
+            if st.button("NABIL (Bank)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about NABIL stock (Nepal Stock Exchange)", "NABIL")
         with col2:
-            if st.button("🏦 EBL (Bank)", use_container_width=True):
+            if st.button("EBL (Bank)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about EBL stock (Everest Bank Limited)", "EBL")
         with col3:
-            if st.button("🛡️ NRIC (Insurance)", use_container_width=True):
+            if st.button("NRIC (Insurance)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about NRIC stock (Nepal Reinsurance)", "NRIC")
         with col4:
-            if st.button("🌾 ADBL (Bank)", use_container_width=True):
+            if st.button("ADBL (Bank)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about ADBL stock (Agricultural Development Bank)", "ADBL")
         
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            if st.button("⚡ SHIVM (Hydropower)", use_container_width=True):
+            if st.button("SHIVM (Hydropower)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about SHIVM stock (Shivam Cement Hydropower)", "SHIVM")
         with col2:
-            if st.button("⚡ CHCL (Hydropower)", use_container_width=True):
+            if st.button("CHCL (Hydropower)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about CHCL stock (Chilime Hydropower)", "CHCL")
         with col3:
-            if st.button("💳 NMB (Bank)", use_container_width=True):
+            if st.button("NMB (Bank)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about NMB stock (NMB Bank)", "NMB")
         with col4:
-            if st.button("💹 CIT (Investment)", use_container_width=True):
+            if st.button("CIT (Investment)", use_container_width=True):
                 _trigger_query("Provide detailed analysis and recent information about CIT stock (Citizen Investment Trust)", "CIT")
     
     st.markdown("---")
     
     # Row 2: Market scans
-    st.markdown("**🔎 Market Scans**")
+    st.markdown("**Market Scans**")
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        if st.button("🚀 Top Gainers", use_container_width=True):
+        if st.button("Top Gainers", use_container_width=True):
             _trigger_query("What are today's top gainers in NEPSE? Use live data and show a table.", "Top Gainers")
     with col2:
-        if st.button("📉 Top Losers", use_container_width=True):
+        if st.button("Top Losers", use_container_width=True):
             _trigger_query("What are today's top losers in NEPSE? Use live data and show a table.", "Top Losers")
     with col3:
-        if st.button("📊 Most Traded", use_container_width=True):
+        if st.button("Most Traded", use_container_width=True):
             _trigger_query("Which NEPSE stocks have the highest volume and turnover today? Use live data.", "Most Traded")
     with col4:
-        if st.button("💰 Market Overview", use_container_width=True):
+        if st.button("Market Overview", use_container_width=True):
             _trigger_query("Provide a complete overview of current NEPSE market conditions using live data.", "Market Overview")
     
     st.markdown("---")
     
     # Row 3: Sector analysis
-    st.markdown("**🏭 Sector Analysis**")
+    st.markdown("**Sector Analysis**")
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        if st.button("🏦 Banking", use_container_width=True):
+        if st.button("Banking", use_container_width=True):
             _trigger_query("Analyze the banking sector stocks in NEPSE using live data and show key metrics.", "Banking")
     with col2:
-        if st.button("⚡ Hydropower", use_container_width=True):
+        if st.button("Hydropower", use_container_width=True):
             _trigger_query("Analyze the hydropower sector stocks in NEPSE using live data and show key metrics.", "Hydropower")
     with col3:
-        if st.button("🛡️ Insurance", use_container_width=True):
+        if st.button("Insurance", use_container_width=True):
             _trigger_query("Analyze the insurance sector stocks in NEPSE using live data and show key metrics.", "Insurance")
     with col4:
-        if st.button("💳 Microfinance", use_container_width=True):
+        if st.button("Microfinance", use_container_width=True):
             _trigger_query("Analyze the microfinance sector stocks in NEPSE using live data and show key metrics.", "Microfinance")
 
 def render_market_trends():
     """Render live NEPSE market trend and sector analysis."""
     st.markdown("---")
-    st.markdown("## 📈 NEPSE Market Trend Analysis")
+    st.markdown("## NEPSE Market Trend Analysis")
     
     try:
         trend = nepse_data.get_market_trend()
@@ -317,25 +316,25 @@ def render_market_trends():
         
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("### 🧭 Market Breadth")
+            st.markdown("### Market Breadth")
             st.code(trend, language=None)
         with col2:
-            st.markdown("### 🏭 Sector Performance")
+            st.markdown("### Sector Performance")
             st.code(sector, language=None)
     except Exception as e:
         logger.error(f"Error loading market trends: {str(e)}", exc_info=True)
-        st.warning("⚠️ Could not load live trend data. Try again shortly.")
+        st.warning("Could not load live trend data. Try again shortly.")
 
 def render_all_stocks():
     """Render a searchable/filterable table of ALL NEPSE stocks."""
     st.markdown("---")
-    st.markdown("## 📊 All NEPSE Stocks")
+    st.markdown("## All NEPSE Stocks")
     st.caption("Live data from NepalIPaisa NEPSE API (refreshes every 60s)")
     
     try:
         rows = nepse_data.get_all_stocks_table()
         if not rows:
-            st.warning("⚠️ No live data available right now.")
+            st.warning("No live data available right now.")
             return
         
         st.markdown(f"### Total: {len(rows)} listed stocks")
@@ -343,7 +342,7 @@ def render_all_stocks():
         # Filters
         col1, col2, col3 = st.columns([2, 2, 1])
         with col1:
-            search = st.text_input("🔍 Search by symbol or company:", key="stock_search")
+            search = st.text_input("Search by symbol or company:", key="stock_search")
         with col2:
             sort_by = st.selectbox(
                 "Sort by:",
@@ -365,7 +364,7 @@ def render_all_stocks():
         else:
             rows = sorted(rows, key=lambda r: r[sort_by], reverse=reverse)
         
-        # Color-code the change column
+# Color-code the change column
         def color_change(val):
             if val > 0:
                 return f"color: green"
@@ -386,11 +385,11 @@ def render_all_stocks():
             st.dataframe(rows, use_container_width=True, height=500)
     except Exception as e:
         logger.error(f"Error loading all stocks: {str(e)}", exc_info=True)
-        st.warning("⚠️ Could not load live stock data. Try again shortly.")
+        st.warning("Could not load live stock data. Try again shortly.")
 
 def render_query_input():
     """Render main query input section"""
-    st.markdown("### 🔍 Custom Query")
+    st.markdown("### Custom Query")
     col_input, col_button = st.columns([4, 1])
     
     with col_input:
@@ -404,7 +403,7 @@ def render_query_input():
     
     with col_button:
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("🚀 Analyze", use_container_width=True, type="primary"):
+        if st.button("Analyze", use_container_width=True, type="primary"):
             if user_query:
                 st.session_state.current_query = user_query
                 st.session_state.process_query = True
@@ -420,7 +419,7 @@ def process_query():
         # Reset flag
         st.session_state.process_query = False
         
-        with st.spinner("🤖 Agent team is analyzing your query..."):
+        with st.spinner("Agent team is analyzing your query..."):
             try:
                 # Initialize agents
                 logger.info("Initializing agent team...")
@@ -429,9 +428,9 @@ def process_query():
                 if agent_team:
                     # Display query
                     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    st.markdown(f'<div class="query-box"><strong>📝 Query:</strong> {query_to_process}<br><small>⏰ {timestamp}</small></div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="query-box"><strong>Query:</strong> {query_to_process}<br><small>{timestamp}</small></div>', unsafe_allow_html=True)
                     
-                    st.markdown("**🤖 Agent Response:**")
+                    st.markdown("**Agent Response:**")
                     
                     # Get response with error handling
                     logger.info("Processing query through agent team...")
@@ -451,20 +450,20 @@ def process_query():
                     })
                     logger.info("Query added to chat history")
                     
-                    st.success("✅ Analysis complete!")
+                    st.success("Analysis complete!")
                     
                 else:
                     logger.error("Agent team initialization failed")
-                    st.error("❌ Failed to initialize agent team. Check logs for details.")
+                    st.error("Failed to initialize agent team. Check logs for details.")
                     
             except Exception as e:
                 logger.error(f"Error processing query: {str(e)}", exc_info=True)
-                st.error(f"❌ Error: {str(e)}")
+                st.error(f"Error: {str(e)}")
                 
                 if "tool_use_failed" in str(e):
-                    st.warning("⚠️ The web search tool encountered an issue. The agents will try to provide information from their knowledge base.")
+                    st.warning("The web search tool encountered an issue. The agents will try to provide information from their knowledge base.")
                 
-                st.info("💡 **Troubleshooting Tips:**")
+                st.info("**Troubleshooting Tips:**")
                 st.markdown("""
                 - Try rephrasing your query more simply
                 - Check your GROQ_API_KEY in .env file
@@ -476,13 +475,13 @@ def render_chat_history():
     """Render chat history section"""
     if st.session_state.chat_history:
         st.markdown("---")
-        st.markdown("## 📜 Analysis History")
+        st.markdown("## Analysis History")
         
         for idx, chat in enumerate(reversed(st.session_state.chat_history)):
-            with st.expander(f"💬 Query {len(st.session_state.chat_history) - idx}: {chat['query'][:60]}... ({chat['timestamp']})"):
-                st.markdown(f"**📝 Query:** {chat['query']}")
-                st.markdown(f"**⏰ Timestamp:** {chat['timestamp']}")
-                st.markdown("**🤖 Response:**")
+            with st.expander(f"Query {len(st.session_state.chat_history) - idx}: {chat['query'][:60]}... ({chat['timestamp']})"):
+                st.markdown(f"**Query:** {chat['query']}")
+                st.markdown(f"**Timestamp:** {chat['timestamp']}")
+                st.markdown("**Response:**")
                 st.markdown(f'<div class="agent-response">', unsafe_allow_html=True)
                 st.markdown(chat["response"])
                 st.markdown('</div>', unsafe_allow_html=True)
@@ -491,8 +490,7 @@ def main():
     """Main application function"""
     render_sidebar()
     
-    st.title("🏦 NEPSE AI Finance Agent")
-    st.markdown("Powered by Web Agent + Finance Agent (LIVE NEPSE data) working together")
+    st.title("NEPSE AI Finance Agent")
     
     render_quick_actions()
     st.markdown("---")
@@ -510,4 +508,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         logger.critical(f"Critical error in main application: {str(e)}", exc_info=True)
-        st.error(f"❌ Critical Error: {str(e)}")
+        st.error(f"Critical Error: {str(e)}")
